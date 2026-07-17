@@ -1,6 +1,8 @@
 package com.example.todolist.controller;
 
 import com.example.todolist.domain.Task;
+import com.example.todolist.requests.TaskPostRequestBody;
+import com.example.todolist.requests.TaskPutRequestBody;
 import com.example.todolist.service.TaskService;
 import com.example.todolist.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +32,12 @@ public class TaskController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<Task> findById(@PathVariable Long id) {
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return ResponseEntity.ok(taskService.findById(id));
+        return ResponseEntity.ok(taskService.findByIdOrThrowBadRequestException(id));
     }
 
     @PostMapping
-    public ResponseEntity<Task> save(@RequestBody Task task) {
-        return new ResponseEntity<>(taskService.save(task), HttpStatus.CREATED);
+    public ResponseEntity<Task> save(@RequestBody TaskPostRequestBody taskPostRequestBody) {
+        return new ResponseEntity<>(taskService.save(taskPostRequestBody), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -45,8 +47,8 @@ public class TaskController {
     }
 
     @PutMapping
-    public ResponseEntity<Task> replace(@RequestBody Task task) {
-        taskService.replace(task);
+    public ResponseEntity<Task> replace(@RequestBody TaskPutRequestBody taskPutRequestBody) {
+        taskService.replace(taskPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

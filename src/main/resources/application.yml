@@ -2,3 +2,11 @@ spring:
   web:
     error:
       include-stacktrace: never
+  datasource:
+    url: jdbc:mysql://localhost:3306/task?createDatabaseIfNotExist=true&useSSL=false&allowpublickeyretrieval=true
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
