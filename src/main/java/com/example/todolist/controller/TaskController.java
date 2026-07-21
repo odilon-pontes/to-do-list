@@ -35,6 +35,12 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findByIdOrThrowBadRequestException(id));
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Task>> findByName(@RequestParam String name) {
+        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
+        return ResponseEntity.ok(taskService.findyByName(name));
+    }
+
     @PostMapping
     public ResponseEntity<Task> save(@RequestBody TaskPostRequestBody taskPostRequestBody) {
         return new ResponseEntity<>(taskService.save(taskPostRequestBody), HttpStatus.CREATED);
