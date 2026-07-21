@@ -5,6 +5,7 @@ import com.example.todolist.requests.TaskPostRequestBody;
 import com.example.todolist.requests.TaskPutRequestBody;
 import com.example.todolist.service.TaskService;
 import com.example.todolist.util.DateUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> save(@RequestBody TaskPostRequestBody taskPostRequestBody) {
+    public ResponseEntity<Task> save(@RequestBody @Valid TaskPostRequestBody taskPostRequestBody) {
         return new ResponseEntity<>(taskService.save(taskPostRequestBody), HttpStatus.CREATED);
     }
 
