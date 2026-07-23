@@ -8,6 +8,8 @@ import com.example.todolist.requests.TaskPostRequestBody;
 import com.example.todolist.requests.TaskPutRequestBody;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,8 +21,8 @@ import java.util.List;
 public class TaskService {
     private final TaskRepository taskRepository;
 
-    public List<Task> listAll() {
-        return taskRepository.findAll();
+    public Page<Task> listAll(Pageable pageable) {
+        return taskRepository.findAll(pageable);
     }
 
     public List<Task> findyByName(String name) {
