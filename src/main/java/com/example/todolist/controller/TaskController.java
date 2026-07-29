@@ -25,11 +25,16 @@ public class TaskController {
     private final DateUtil dateUtil;
     private final TaskService taskService;
 
-    //localhost:8080/task/list
     @GetMapping
     public ResponseEntity<Page<Task>> list(Pageable pageable) {
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(taskService.listAll(pageable));
+    }
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<Task>> listAll() {
+        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
+        return ResponseEntity.ok(taskService.listAllNoPageable());
     }
 
     @GetMapping(path = "/{id}")
