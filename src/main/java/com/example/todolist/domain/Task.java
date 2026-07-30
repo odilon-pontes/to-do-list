@@ -16,5 +16,6 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "The task cannot be empty")
     private String name;
 }

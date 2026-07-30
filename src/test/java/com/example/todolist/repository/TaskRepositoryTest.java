@@ -1,6 +1,7 @@
 package com.example.todolist.repository;
 
 import com.example.todolist.domain.Task;
+import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -78,11 +79,9 @@ class TaskRepositoryTest {
 
         List<Task> tasks = this.taskRepository.findByName(name);
 
-        Assertions.assertThat(tasks).isNotEmpty();
-
-        Assertions.assertThat(tasks).contains(taskSaved);
-
-
+        Assertions.assertThat(tasks)
+                .isNotEmpty()
+                .contains(taskSaved);
     }
 
     @Test
@@ -92,6 +91,17 @@ class TaskRepositoryTest {
 
         Assertions.assertThat(tasks).isEmpty();
 
+    }
+
+    @Test
+    @DisplayName("Save throw ConstraintViolationException when name is empty")
+    void save_ThrowsConstraintViolationException_WhenNameIsEmpty() {
+        Task task = new Task();
+//        Assertions.assertThatThrownBy(() -> this.taskRepository.save(task))
+//                .isInstanceOf(ConstraintViolationException.class);
+        Assertions.assertThatExceptionOfType(ConstraintViolationException.class)
+                .isThrownBy(() -> this.taskRepository.save(task))
+                .withMessageContaining("The task cannot be empty");
     }
 
     private Task createTask() {
