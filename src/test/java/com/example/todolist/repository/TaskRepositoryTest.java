@@ -1,6 +1,7 @@
 package com.example.todolist.repository;
 
 import com.example.todolist.domain.Task;
+import com.example.todolist.util.TaskCreator;
 import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +22,7 @@ class TaskRepositoryTest {
     @Test
     @DisplayName("Save persists task when successful")
     void save_PersistTask_WhenSuccessful() {
-        Task taskToBeSaved = createTask();
+        Task taskToBeSaved = TaskCreator.createTaskToBeSaved();
 
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
 
@@ -36,7 +37,7 @@ class TaskRepositoryTest {
     @Test
     @DisplayName("Save updates task when successful")
     void save_UpdatesTask_WhenSuccessful() {
-        Task taskToBeSaved = createTask();
+        Task taskToBeSaved = TaskCreator.createTaskToBeSaved();
 
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
 
@@ -55,7 +56,7 @@ class TaskRepositoryTest {
     @Test
     @DisplayName("Delete removes task when successful")
     void delete_RemoveTask_WhenSuccessful() {
-        Task taskToBeSaved = createTask();
+        Task taskToBeSaved = TaskCreator.createTaskToBeSaved();
 
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
 
@@ -71,7 +72,7 @@ class TaskRepositoryTest {
     @Test
     @DisplayName("Find by name returns list of task when successful")
     void findByName_ReturnsListOfTask_WhenSuccessful() {
-        Task taskToBeSaved = createTask();
+        Task taskToBeSaved = TaskCreator.createTaskToBeSaved();
 
         Task taskSaved = this.taskRepository.save(taskToBeSaved);
 
@@ -103,11 +104,4 @@ class TaskRepositoryTest {
                 .isThrownBy(() -> this.taskRepository.save(task))
                 .withMessageContaining("The task cannot be empty");
     }
-
-    private Task createTask() {
-        return Task.builder()
-                .name("buy five oranges")
-                .build();
-    }
-
 }

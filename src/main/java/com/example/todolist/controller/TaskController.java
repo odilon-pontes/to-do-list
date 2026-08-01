@@ -27,25 +27,21 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<Page<Task>> list(Pageable pageable) {
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(taskService.listAll(pageable));
     }
 
     @GetMapping(path = "/all")
     public ResponseEntity<List<Task>> listAll() {
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(taskService.listAllNoPageable());
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Task> findById(@PathVariable Long id) {
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(taskService.findByIdOrThrowBadRequestException(id));
     }
 
     @GetMapping(path = "/find")
     public ResponseEntity<List<Task>> findByName(@RequestParam String name) {
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(taskService.findyByName(name));
     }
 
@@ -61,7 +57,7 @@ public class TaskController {
     }
 
     @PutMapping
-    public ResponseEntity<Task> replace(@RequestBody TaskPutRequestBody taskPutRequestBody) {
+    public ResponseEntity<Void> replace(@RequestBody TaskPutRequestBody taskPutRequestBody) {
         taskService.replace(taskPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
