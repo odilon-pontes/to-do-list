@@ -56,12 +56,11 @@ public class TaskController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Task> save(@RequestBody @Valid TaskPostRequestBody taskPostRequestBody) {
         return new ResponseEntity<>(taskService.save(taskPostRequestBody), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/admin/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         taskService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

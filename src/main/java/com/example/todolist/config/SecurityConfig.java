@@ -48,7 +48,10 @@ public class SecurityConfig {
                 .authenticationProvider(databaseProvider)
                 .authenticationProvider(inMemoryProvider)
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().authenticated())
+                        .requestMatchers("tasks/admin/**").hasRole("ADMIN")
+                        .requestMatchers("tasks/**").hasRole("USER")
+                        .anyRequest()
+                        .authenticated())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
 
