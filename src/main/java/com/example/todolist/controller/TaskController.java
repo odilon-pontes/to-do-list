@@ -12,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -40,12 +43,20 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findByIdOrThrowBadRequestException(id));
     }
 
+    @GetMapping(path = "by-id/{id}")
+    public ResponseEntity<Task> findByIdAuthenticationPrincipal(@PathVariable Long id,
+                                                                @AuthenticationPrincipal UserDetails userDetails) {
+        log.info(userDetails);
+        return ResponseEntity.ok(taskService.findByIdOrThrowBadRequestException(id));
+    }
+
     @GetMapping(path = "/find")
     public ResponseEntity<List<Task>> findByName(@RequestParam String name) {
         return ResponseEntity.ok(taskService.findyByName(name));
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Task> save(@RequestBody @Valid TaskPostRequestBody taskPostRequestBody) {
         return new ResponseEntity<>(taskService.save(taskPostRequestBody), HttpStatus.CREATED);
     }
